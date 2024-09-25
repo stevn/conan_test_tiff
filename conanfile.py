@@ -1,7 +1,7 @@
 import os
 
 from conan import ConanFile
-from conan.tools.cmake import CMake, CMakeDeps, CMakeToolchain, cmake_layout
+from conan.tools.cmake import CMake, cmake_layout
 from conan.tools.files import copy
 from conan.tools.build import can_run
 
@@ -39,24 +39,15 @@ class StuffConanPkg(ConanFile):
         # ZSTD
 
         # This works OK, but uses old version of zstd - I need to use latest version 1.5.6:
-        self.requires('zstd/1.5.5')
+        # self.requires('zstd/1.5.5')
 
         # This doesn't work (conan package version conflict: libtiff requires hardcoded zstd version 1.5.5):
         # ERROR: Version conflict: Conflict between zstd/1.5.5 and zstd/1.5.6 in the graph.
         # Conflict originates from libtiff/4.7.0
         # self.requires('zstd/1.5.6')
 
-        # This doesn't work (conan install is OK, but zstd.h is not found at compile-time):
-        # src/lib/stuff/stuff.cpp:3:10: fatal error: 'zstd.h' file not found
-        # #include <zstd.h>
-        #          ^~~~~~~~
-        # self.requires('zstd/1.5.6', override=True)
-
-        # This doesn't work (conan install is OK, but zstd.h is not found at compile-time):
-        # src/lib/stuff/stuff.cpp:3:10: fatal error: 'zstd.h' file not found
-        # #include <zstd.h>
-        #          ^~~~~~~~
-        # self.requires('zstd/1.5.6', override=True, headers=True, libs=True)
+        # This works OK (but requires rebuilding libtiff):
+        self.requires('zstd/1.5.6', force=True)
 
         # TIFF
         self.requires('libtiff/4.7.0')
