@@ -33,3 +33,9 @@ self.requires('zstd/1.5.6', override=True)
 #          ^~~~~~~~
 self.requires('zstd/1.5.6', override=True, headers=True, libs=True)
 ```
+
+Solved by forcing the zstd version:
+
+```text
+self.requires('zstd/1.5.6', force=True)
+```
